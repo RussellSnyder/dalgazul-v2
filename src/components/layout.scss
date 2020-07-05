@@ -1,0 +1,28 @@
+@import './bootstrap-overrides.scss';
+@import 'bootstrap/scss/bootstrap-reboot';
+@import 'bootstrap/scss/bootstrap';
+@import 'react-flags-select/scss/react-flags-select.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Fondamento&family=Josefin+Sans:wght@400;700&display=swap');
+
+html, * {
+	scroll-behavior: smooth;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+  background: rgb(255,255,255);
+  background: linear-gradient(155deg, rgba(255,255,255,1) 50%, rgba(135,206,235,0.3) 100%);
+  min-height: 100vh;
+}
+
+main {
+  min-height: 70vh;
+}
+.clickable {
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fondamento', cursive;
+}

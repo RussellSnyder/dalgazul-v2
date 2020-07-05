@@ -1,0 +1,13 @@
+.language-selector {
+  max-width: 100px;
+  .flag-select__option {
+    padding: 0;
+    &__icon {
+      width: 30px;
+      top: 0;
+    }
+    &__label {
+      font-size: 1.3rem;
+    }
+  }
+}

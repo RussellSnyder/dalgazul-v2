@@ -1,0 +1,14 @@
+.parallax {
+  min-height: 50vh; 
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  transition: all 1s;
+  filter: grayscale(100%);
+  &.in-view {
+    filter: grayscale(0);
+
+  }
+}
