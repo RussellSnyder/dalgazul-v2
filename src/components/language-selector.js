@@ -12,8 +12,11 @@ Object.entries(locales).forEach(([,locale]) => {
 
 export const getCurrentLocaleFromPath = (path) => {
   const localesEntries = Object.entries(locales)
-
+  
   let currentLocale = localesEntries.filter(([,locale]) => locale.default)[0][1];
+  
+  if (!path) return currentLocale
+
   localesEntries.forEach(([,locale]) => {
     if (path.includes(locale.path)) {
       currentLocale = locale
