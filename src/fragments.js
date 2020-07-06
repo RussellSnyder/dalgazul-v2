@@ -9,6 +9,7 @@ export const SiteFramgent = graphql`
         facebook
         youtube
       }
+      headerLogo
     }
   }
 `;
@@ -48,16 +49,6 @@ export const MusicFragment = graphql`
       file {
         url
       }
-      fluid(maxHeight: 300) {
-        sizes
-        src
-        srcSet
-      }
-      resize(height: 200) {
-        src
-        width
-        height
-      }
     }
 
     dateComposed(formatString: "MMMM, YYYY")
@@ -93,9 +84,6 @@ export const HomePageFragment = graphql`
       file {
         url
       }
-      sizes(maxWidth: 1280) {
-        ...GatsbyContentfulSizes_tracedSVG
-      }
     }
     seoTitle
     seoDescription
@@ -119,9 +107,6 @@ export const PageFragment = graphql`
       title
       file {
         url
-      }
-      sizes(maxWidth: 1280) {
-        ...GatsbyContentfulSizes_tracedSVG
       }
     }
     body {

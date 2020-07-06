@@ -48,28 +48,30 @@ const MusicPreview = ({data}) => {
     dateComposed,
     shortDescription    
   } = data;
-  return <div className="card music-preview">
+  return <Link
+    to={`${kebabCase(title)}`} 
+    className="card music-preview"
+  >
     <div className="top d-flex justify-content-between">
-      <div className="col-6 image">
-        <img
+      <div className="col-6 image" style={{
+        backgroundImage: `url(${featuredImage.file.url})`,
+        backgrounsPosition: 'center',
+        backgroundSize: 'cover',
+      }}>
+        {/* <img
           className="img-fluid"
           src={featuredImage.file.url}
           alt={featuredImage.title}
-        />
+        /> */}
       </div>
       <div className="col-6 my-auto text-center">
         <h4 className="card-title">{title}</h4>
-        <h6>Composed by: {composer.name}</h6>
-        <h6>{dateComposed}</h6>
+        <h6>-{composer.name}-</h6>
+        <hr />
+        <p>{shortDescription}</p>
       </div>
     </div>
-    <div className="card-body">
-      {shortDescription}
-    </div>
-    <div className="card-footer">
-      <Link to={`${kebabCase(title)}`} className="btn btn-primary col-12">More</Link>
-    </div>
-  </div>
+  </Link>
 }
 
 const MusicPage = ({ path, data }) => {
@@ -81,7 +83,7 @@ const MusicPage = ({ path, data }) => {
       <div className="container">
         <div className="row mb-4">
           {data.allContentfulMusic.nodes.map(data => (
-            <div className="col-sm-6 col-md-4">
+            <div className="col-sm-6 col-md-4 mb-4">
               <MusicPreview data={data} key={data.id} />
             </div>
           ))}

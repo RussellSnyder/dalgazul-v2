@@ -10,20 +10,16 @@ const Layout = ({ children, language, path }) => {
       site {
         ...SiteMetadata
       }
-      headerLogo: imageSharp(original: {src: { regex: "/logo/" }}) {
-        sizes(maxWidth: 150) {
-          ...GatsbyImageSharpSizes_tracedSVG
-        }
-      }
     }
   `)
-
+    console.log(data)
   return (
     <>
       <Header
         language={language}
+        siteTitle={data.site.siteMetadata.title}
         path={path}
-        headerLogo={data.headerLogo}
+        headerLogo={data.site.siteMetadata.headerLogo}
       />
       <div>
         <main>{children}</main>

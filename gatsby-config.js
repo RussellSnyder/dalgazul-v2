@@ -15,7 +15,8 @@ module.exports = {
       facebook: 'https://www.facebook.com/dalgazul',
       youtube: 'https://www.youtube.com/channel/UCL8aoiuRkkaO2Bsym4yyQaQ/featured',
       bandcamp: 'https://dalgazul.bandcamp.com/releases',
-    }
+    },
+    headerLogo: `src/images/logo_header.png`
   },
   plugins: [
     `gatsby-plugin-sass`,
@@ -38,7 +39,7 @@ module.exports = {
         background_color: `#87ceeb`,
         theme_color: `#87ceeb`,
         display: `minimal-ui`,
-        icon: `src/images/logo.png`, // This path is relative to the root of the site.
+        icon: `src/images/logo_square.jpg`, // This path is relative to the root of the site.
       },
     },
     {

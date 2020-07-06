@@ -38,7 +38,7 @@ const MusicSingle = ({ path, data }) => {
           lang={language.name}
         />
         <div className="container mb-4 pb-4">
-          <div className="row mb-4 pb-4">
+          <div className="row mb-4 pb-4">            
             <div className="col-sm-6 image mb-4 mb-sm-0">
               <img
                 className="img-fluid"
@@ -48,25 +48,9 @@ const MusicSingle = ({ path, data }) => {
             </div>
             <div className="col-sm-6 my-auto text-center">
               <h1 className="mb-4">{title}</h1>
-              <h3>Composed by: {composer.name}</h3>
+              <h5>Composed by: {composer.name}</h5>
               <h6>{dateComposed}</h6>
             </div>
-          </div>
-          <div className="row mb-4 pb-4">
-            <div className={`${youtubeId ? 'col-sm-6 my-auto' : 'col-sm-10 offset-sm-1'} `}>
-              {documentToReactComponents(longDescription.json)}
-            </div>
-            {youtubeId && <div className="col-sm-6">
-              <iframe
-                title={`youtube ${title}`}
-                width="100%"
-                height="315"
-                src={`https://www.youtube.com/embed/${youtubeId}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>}
           </div>
           {(soundcloudId || bandcampId) && <hr className="mb-4 pb-4" />}
           {(soundcloudId || bandcampId) && <div className="row pb-4 mb-4">
@@ -90,6 +74,23 @@ const MusicSingle = ({ path, data }) => {
               />
             </div>}
           </div>}
+          <hr className="mb-4 pb-4" />
+          <div className="row mb-4 pb-4">
+            <div className={`${youtubeId ? 'col-sm-6 my-auto' : 'col-sm-10 offset-sm-1'} `}>
+              {documentToReactComponents(longDescription.json)}
+            </div>
+            {youtubeId && <div className="col-sm-6">
+              <iframe
+                title={`youtube ${title}`}
+                width="100%"
+                height="315"
+                src={`https://www.youtube.com/embed/${youtubeId}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>}
+          </div>
           {lyrics && <hr className="pb-4 mb-4" />}
           {lyrics && <div className="row lyrics">
             <div className={`${translatedLyrics ? 'col-sm-6' : 'col-sm-8 offset-sm-2'}`}>
