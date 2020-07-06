@@ -21,7 +21,6 @@ const HomePage = ({ path, data }) => {
     seoImage,
   } = contentfulHomePage
 
-  console.log(featuredImage)
 
   return <Layout
       language={language}

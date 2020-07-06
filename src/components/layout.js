@@ -12,7 +12,6 @@ const Layout = ({ children, language, path }) => {
       }
     }
   `)
-    console.log(data)
   return (
     <>
       <Header

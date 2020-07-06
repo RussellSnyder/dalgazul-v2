@@ -75,7 +75,6 @@ const MusicPreview = ({data}) => {
 }
 
 const MusicPage = ({ path, data }) => {
-  console.log(data);
   return <Layout
       path={path}
     >

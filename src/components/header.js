@@ -7,7 +7,6 @@ import './header.scss';
 import LanguageSelector, { getCurrentLocaleFromPath } from "./language-selector";
 import logo from "../images/logo_header.png"
 
-console.log(logo)
 export default ({ siteTitle, path }) => (
   <Headroom>
     <div className="d-none d-sm-block d-md-none position-absolute"
