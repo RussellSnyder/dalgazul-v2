@@ -14,8 +14,8 @@ export const SiteFramgent = graphql`
   }
 `;
 
-export const ContributorFragment = graphql`
-  fragment ContributorFragment on ContentfulMember {
+export const MemberFragment = graphql`
+  fragment MemberFragment on ContentfulMember {
     id
     language {
       name

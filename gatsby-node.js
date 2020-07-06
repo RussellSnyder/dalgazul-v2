@@ -27,6 +27,7 @@ exports.createPages = ({ graphql, actions }) => {
     const ContactPage = path.resolve('./src/templates/contact-page.js');
     const VideoPage = path.resolve('./src/templates/video-page.js');
     const BioPage = path.resolve('./src/templates/bio-page.js');
+    const MemberPage = path.resolve('./src/templates/member-single.js');
     const MusicPage = path.resolve('./src/templates/music-page.js');
     const MusicSingle = path.resolve('./src/templates/music-single.js');
     const LivePage = path.resolve('./src/templates/live-page.js');
@@ -60,6 +61,15 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        bioPages: allContentfulPage(filter: {pageType: {eq: "bio"}}) {
+          nodes {
+            id
+            pageType
+            language {
+              name
+            }
+          }
+        }
         musicSingles: allContentfulMusic {
           nodes {
             id
@@ -72,6 +82,18 @@ exports.createPages = ({ graphql, actions }) => {
             title
           }
         }
+        members: allContentfulMember {
+          nodes {
+            id
+            language {
+              name
+            }
+            languageKey {
+              name
+            }
+            name
+          }
+        }
       }
     `).then((result) => {
         if (result.errors) {
@@ -80,8 +102,29 @@ exports.createPages = ({ graphql, actions }) => {
         }
 
         /////////////////
-        // MUSIC PAGES //
+        // HOME PAGES //
         /////////////////
+
+        const fallbackHomepageId = getFallbackId(result.data.homePages);
+
+        Object.entries(locales).forEach(([,locale]) => {
+          const page = result.data.homePages.nodes.find(page => page.language.name === locale.locale)
+          const path = locale.path;
+          const id = page ? page.id : fallbackHomepageId
+
+          console.log(`creating HomePage at ${path}`)
+          createPage({
+            component: HomePage,
+            path,
+            context: {
+              id 
+            },
+          });
+        })
+
+        ////////////////////////////////////
+        // MUSIC PAGES /////////////////////
+        ////////////////////////////////////
 
         const musicSortedByLanguage = {};
         // initialize language arrays
@@ -106,23 +149,6 @@ exports.createPages = ({ graphql, actions }) => {
         const musicWithFallbackIdsSortedByLanguage = {} 
         Object.entries(musicSortedByLanguage).forEach(([key,languageGroup]) => {
           musicWithFallbackIdsSortedByLanguage[key] = languageGroup.map(music => music.id)
-        })
-
-        const fallbackHomepageId = getFallbackId(result.data.homePages);
-
-        Object.entries(locales).forEach(([,locale]) => {
-          const page = result.data.homePages.nodes.find(page => page.language.name === locale.locale)
-          const path = locale.path;
-          const id = page ? page.id : fallbackHomepageId
-
-          console.log(`creating HomePage at ${path}`)
-          createPage({
-            component: HomePage,
-            path,
-            context: {
-              id 
-            },
-          });
         })
 
         const fallbackMusicpageId = getFallbackId(result.data.musicPages);
@@ -159,10 +185,9 @@ exports.createPages = ({ graphql, actions }) => {
           })
         })
 
-        ///////////////////
-        // Contact Pages //
-        ///////////////////
-        // const fallbackMusicpageId = getFallbackId(result.data.musicPages);
+        //////////////////////////////////////
+        // Contact Pages /////////////////////
+        //////////////////////////////////////
         const fallbackContactpageId = getFallbackId(result.data.contactPages);
 
         Object.entries(locales).forEach(([,locale]) => {
@@ -191,19 +216,67 @@ exports.createPages = ({ graphql, actions }) => {
           // });  
 
         /////////////////////////////////////////////
-        // Bio Pages ////////////////////////////////
+        // Bio & Member Pages ///////////////////////
         /////////////////////////////////////////////
-        Object.entries(locales).forEach(([,locale]) => {
-
-          // console.log(`creating BioPage at ${path}bio`)
-          // createPage({
-          //   component: BioPage,
-          //   path: `${path}bio`,
-          //   context: {
-          //     id
-          //   },
-          // });  
+        const membersGroupedByLanguage = {};
+        // initialize language arrays
+        Object.entries(locales).forEach(([,locale]) => membersGroupedByLanguage[locale.locale] = [])
+        // fill with the languages we have
+        result.data.members.nodes.forEach(member => {
+          membersGroupedByLanguage[member.language.name].push(member)
         })
+        // default language is fallback content
+        const fallbackMemberContentLanguageKeys = membersGroupedByLanguage[defaultLanguage.locale].map(item => item.languageKey.name)
+        // fill with fallback content        
+        Object.entries(membersGroupedByLanguage).forEach(([key,languageGroup]) => {
+          if (key === defaultLanguage.locale) return;
+          const languageGroupKeys = languageGroup.map(member => member.languageKey.name);
+          fallbackMemberContentLanguageKeys.forEach((languageKey, i) => {
+            // no duplicates
+            if (languageGroupKeys.includes(languageKey)) return;
+            membersGroupedByLanguage[key].push(membersGroupedByLanguage[defaultLanguage.locale][i])
+          })
+        })
+
+        const membersWithFallbackIdsSortedByLanguage = {} 
+        Object.entries(membersGroupedByLanguage).forEach(([key,languageGroup]) => {
+          membersWithFallbackIdsSortedByLanguage[key] = languageGroup.map(member => member.id)
+        })
+
+        const fallbackBiopageId = getFallbackId(result.data.bioPages);
+
+        Object.entries(locales).forEach(([,locale]) => {
+          const page = result.data.bioPages.nodes.find(page => page.language.name === locale.locale)
+          const path = `${locale.path}bio`;
+          const id = page ? page.id : fallbackBiopageId
+
+          console.log(`creating BioPage at ${path}`)
+          createPage({
+            component: BioPage,
+            path: `${path}`,
+            context: {
+              id,
+              memberIds: membersWithFallbackIdsSortedByLanguage[locale.locale]
+            },
+          });  
+        })
+
+        Object.entries(membersGroupedByLanguage).forEach(([lang,langGroup]) => {
+          langGroup.forEach(member => {
+            const path = `${lang === defaultLanguage.locale ? '' : lang}/member/${kebabCase(member.name)}`;
+  
+            console.log(`creating MemberPage at ${path}`)
+  
+            createPage({
+              component: MemberPage,
+              path,
+              context: {
+                id: member.id
+              },
+            });
+          })
+        })
+
 
           // console.log(`creating LivePage at ${path}live`)
           // createPage({

@@ -1,0 +1,26 @@
+.member-preview {
+  // background-color: white;
+  .image {
+    height: 40vh;
+  }
+  @media (min-width: 992px) {
+    .image {
+      height: 40vh;
+      transition: filter 0.3s;
+      filter: grayscale(100%);
+    }
+    .text {
+      transition: color 0.3s;
+    }
+    &:hover {
+      text-decoration: none;
+      .image {
+        filter: grayscale(0);
+      }
+      .text {
+        color: skyblue;
+      }
+    }
+  
+  }
+}

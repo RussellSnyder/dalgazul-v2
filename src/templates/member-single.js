@@ -1,0 +1,74 @@
+import React, { useState } from "react"
+
+import Layout from "../components/layout"
+import Image from "../components/image"
+import SEO from "../components/seo"
+import { Link, graphql } from "gatsby"
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import Img from "gatsby-image"
+import Parallax from '../components/parallax'
+import { kebabCase } from "lodash"
+import './music-page.scss'
+
+const MemberPage = ({ path, data }) => {
+  const {
+    name,
+    photo,
+    role,
+    longDescription,
+    shortDescription,
+    language,
+  } = data.contentfulMember;
+
+  console.log(data)
+  return (
+    <Layout
+        language={language}
+        path={path}
+      >
+        <SEO 
+          title={`Dalgazul | ${name}`}
+          description={shortDescription}
+          image={photo.file.url}
+          lang={language.name}
+          location={path}
+        />
+        <div className="container">
+          <div className="row mb-5">
+            <div className="col-sm-6">
+              <img
+                className="d-block w-100 img-fluid"
+                src={photo.file.url}
+                alt={name}
+              />
+            </div>
+            <div className="col-sm-6 my-auto text-center">
+              <h1>{name}</h1>
+              <hr />
+              <h6>{role}</h6>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-10 offset-sm-1">
+              {longDescription && documentToReactComponents(longDescription.json)}
+
+            </div>
+          </div>
+        </div>
+
+      </Layout>
+  )
+}
+
+export default MemberPage
+
+export const query = graphql`
+  query($id: String!) {
+    site {
+      ...SiteMetadata
+    }
+    contentfulMember(id: {eq: $id}) {
+      ...MemberFragment
+    }
+  }
+`

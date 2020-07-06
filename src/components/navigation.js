@@ -12,22 +12,18 @@ const navLinks = (path) => {
     {
       title: "Music",
       path: `${currentLocale.path}music`,
-      disabled: true,
     },
-    {
-      title: "Videos",
-      path: `${currentLocale.path}videos`,
-      disabled: true,
-    },
-    {
-      title: "Live",
-      path: `${currentLocale.path}live`,
-      disabled: true,
-    },
+    // {
+    //   title: "Videos",
+    //   path: `${currentLocale.path}videos`,
+    // },
+    // {
+    //   title: "Live",
+    //   path: `${currentLocale.path}live`,
+    // },
     {
       title: "Bio",
       path: `${currentLocale.path}bio`,
-      disabled: true,
     },
     {
       title: "Contact",

@@ -15,7 +15,7 @@ const ContactPage = ({ path, data }) => {
   const { t, i18n } = useTranslation();
 
   return <Layout
-      // language={language}
+      language={data.contentfulPage.language.name}
       path={path}
     >
       <SEO
@@ -24,7 +24,7 @@ const ContactPage = ({ path, data }) => {
       <Page data={data.contentfulPage} />
       <div className="container mb-4 pb-4">
         <form
-          name="contact"
+          name={`${data.contentfulPage.language.name}-contact`}
           method="POST"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
