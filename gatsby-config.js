@@ -10,7 +10,7 @@ module.exports = {
     title: `Dalgazul`,
     author: 'Dalgazul',
     description: 'Dalgazul ist ein Musik Gruppe',
-    url: activeEnv === "development" ? 'http://localhost:8000' : 'netlify.dalgazul.app',
+    url: activeEnv === "development" ? 'http://localhost:8000' : 'https://netlify.dalgazul.app',
     social: {
       facebook: 'https://www.facebook.com/dalgazul',
       youtube: 'https://www.youtube.com/channel/UCL8aoiuRkkaO2Bsym4yyQaQ/featured',
