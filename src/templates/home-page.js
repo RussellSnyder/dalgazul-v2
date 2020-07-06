@@ -1,12 +1,7 @@
-import React, { useState } from "react"
-
+import React from "react"
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
-import { Link, graphql } from "gatsby"
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import Img from "gatsby-image"
-import Parallax from '../components/parallax'
+import { graphql } from "gatsby"
 
 const HomePage = ({ path, data }) => {
   const { contentfulHomePage } = data; 
@@ -14,7 +9,7 @@ const HomePage = ({ path, data }) => {
     language,
     title,
     subtitle,
-    featuredImage,
+    // featuredImage,
     shortDescription,
     seoTitle,
     seoDescription,
@@ -46,6 +41,7 @@ const HomePage = ({ path, data }) => {
           </div>
           <div className="col-md-6">
             <iframe
+              title={title}
               style={{
                 border: 0,
                 width: '100%',

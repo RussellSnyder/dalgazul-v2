@@ -1,9 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import { Link, graphql } from "gatsby"
-import Img from "gatsby-image"
 import { kebabCase } from "lodash"
 import './music-page.scss'
 import Page from '../components/page'
@@ -13,7 +11,7 @@ const MusicPreview = ({data}) => {
     featuredImage,
     title,
     composer,
-    dateComposed,
+    // dateComposed,
     shortDescription    
   } = data;
   return <Link

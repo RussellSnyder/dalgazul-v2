@@ -1,9 +1,6 @@
-import React, { useState } from "react"
-
+import React from "react"
 import Layout from "../components/layout"
-import Image from "../components/image"
 import { Link, graphql } from "gatsby"
-import Img from "gatsby-image"
 import { kebabCase } from "lodash"
 import './bio-page.scss'
 import Page from '../components/page'

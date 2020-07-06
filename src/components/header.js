@@ -1,7 +1,6 @@
 import React from "react"
-import { navigate, Link, graphql } from "gatsby"
+import { Link } from "gatsby"
 import Navigation from './navigation';
-import Img from "gatsby-image"
 import Headroom from 'react-headroom'
 import './header.scss';
 import LanguageSelector, { getCurrentLocaleFromPath } from "./language-selector";
@@ -20,6 +19,7 @@ export default ({ siteTitle, path }) => (
       <div className="offset-1 col-3 offset-sm-4 col-sm-4 mb-sm-4 mb-md-0 offset-md-1 col-md-2">
         <Link to={getCurrentLocaleFromPath(path).path}>
           <img
+            alt={`${siteTitle} main logo`}
             className="img-fluid"
             src={logo}
             title={`${siteTitle} main logo`}

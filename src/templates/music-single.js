@@ -1,13 +1,8 @@
-import React, { useState } from "react"
-
+import React from "react"
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import Img from "gatsby-image"
-import Parallax from '../components/parallax'
-import { kebabCase } from "lodash"
 import './music-page.scss'
 
 const MusicSingle = ({ path, data }) => {

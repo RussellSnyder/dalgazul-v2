@@ -1,18 +1,13 @@
-import React, { useState } from "react"
-import i18n from "i18next";
+import React from "react"
 import { useTranslation } from "react-i18next";
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
-import { Link, graphql } from "gatsby"
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import Img from "gatsby-image"
-import Parallax from '../components/parallax'
+import { graphql } from "gatsby"
 import Page from '../components/page'
 
 const ContactPage = ({ path, data }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return <Layout
       language={data.contentfulPage.language.name}
@@ -32,29 +27,35 @@ const ContactPage = ({ path, data }) => {
         >
           <input type="hidden" name="form-name" value="contact" />
           <div className="form-group">
-            <label>{t('name')}</label>
-            <input
-              placeholder={t('name_placeholder')}
-              className="form-control"
-              type="text"
-              name="name" />
+            <label htmlFor="name">{t('name')}
+              <input
+                id="name"
+                placeholder={t('name_placeholder')}
+                className="form-control"
+                type="text"
+                name="name" />
+            </label>
           </div>
           <div className="form-group">
-            <label>{t('email')}</label>
-            <input
-              placeholder={t("email_placeholder")}
-              className="form-control"
-              type="email"
-              name="email"
-            />
+            <label htmlFor="email">{t('email')}
+              <input
+                id="email"
+                placeholder={t("email_placeholder")}
+                className="form-control"
+                type="email"
+                name="email"
+              />
+            </label>
           </div>
           <div className="form-group">
-            <label>{t('message')}</label>
-            <textarea
-              className="form-control"
-              name="message"
-              placeholder={t("message_placeholder")}
-            />
+            <label htmlFor="email">{t('message')}
+              <textarea
+                id="email"
+                className="form-control"
+                name="message"
+                placeholder={t("message_placeholder")}
+                />
+            </label>
           </div>
           <button type="submit" className="mt-2 btn btn-primary col-12">{t('send')}</button>
         </form>
