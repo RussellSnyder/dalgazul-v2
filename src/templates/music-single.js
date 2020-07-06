@@ -26,6 +26,7 @@ const MusicSingle = ({ path, data }) => {
     language,
   } = data.contentfulMusic;
 
+  console.log(path)
   return (
     <Layout
         // language={language}
@@ -36,6 +37,7 @@ const MusicSingle = ({ path, data }) => {
           description={shortDescription}
           image={featuredImage.file.url}
           lang={language.name}
+          location={path}
         />
         <div className="container mb-4 pb-4">
           <div className="row mb-4 pb-4">            
