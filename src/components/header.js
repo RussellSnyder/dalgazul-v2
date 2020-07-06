@@ -8,8 +8,8 @@ import LanguageSelector, { getCurrentLocaleFromPath } from "./language-selector"
 import logo from "../images/logo_header.png"
 
 export default ({ siteTitle, path }) => (
-  <Headroom>
-    <div className="d-none d-sm-block d-md-none position-absolute"
+  <Headroom className="container-fluid">
+    <div className="d-none d-sm-block d-lg-none position-absolute"
       style={{
         right: 0
       }}
@@ -29,10 +29,10 @@ export default ({ siteTitle, path }) => (
           />
         </Link>
       </div>
-      <div className="col-6 offset-sm-2 col-sm-8 offset-md-1 col-md-4 my-auto text-center">
+      <div className="col-6 offset-sm-2 col-sm-8 offset-md-1 col-md-6 my-auto text-center">
         <Navigation path={path} />
       </div>
-      <div className="col-md-3 flex-row-reverse my-auto d-none d-md-flex">
+      <div className="col-lg-2 flex-row-reverse my-auto d-none d-lg-flex">
         <LanguageSelector path={path} />
       </div>
 

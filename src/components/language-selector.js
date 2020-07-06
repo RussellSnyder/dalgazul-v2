@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from 'react-i18next';
 import ReactFlagsSelect from 'react-flags-select';
 import locales from '../constants/locales';
 import { navigate } from "gatsby"
@@ -25,12 +26,13 @@ export const getCurrentLocaleFromPath = (path) => {
   return currentLocale
 }
 
-const onSelectFlag = (path, newCountry) => {
+const onSelectFlag = (path, newCountry, i18n) => {
   const currentLocale = getCurrentLocaleFromPath(path);
   const newLocale = locales[customLabels[newCountry]];
 
   const newPath = path.replace(currentLocale.path, newLocale.path)
 
+  i18n.changeLanguage(newLocale.locale);
   navigate(newPath)
 }
 
@@ -38,11 +40,16 @@ const getFlagFromLanguageCode = (path) => {
   return getCurrentLocaleFromPath(path).flag
 }
 
-export default ({ path }) => <ReactFlagsSelect
-  className="language-selector"
-  defaultCountry={getFlagFromLanguageCode(path)}
-  placeholder="Language"
-  countries={countryFlags}
-  customLabels={customLabels}
-  onSelect={(newCountry) => onSelectFlag(path, newCountry)}
-/>
+export default ({ path }) => {
+  const { i18n } = useTranslation();
+  return (
+    <ReactFlagsSelect
+      className="language-selector"
+      defaultCountry={getFlagFromLanguageCode(path)}
+      placeholder="Language"
+      countries={countryFlags}
+      customLabels={customLabels}
+      onSelect={(newCountry) => onSelectFlag(path, newCountry, i18n)}
+    />
+  )
+}

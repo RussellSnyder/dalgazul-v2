@@ -51,6 +51,15 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        contactPages: allContentfulPage(filter: {pageType: {eq: "contact"}}) {
+          nodes {
+            id
+            pageType
+            language {
+              name
+            }
+          }
+        }
         musicSingles: allContentfulMusic {
           nodes {
             id
@@ -149,7 +158,30 @@ exports.createPages = ({ graphql, actions }) => {
             });
           })
         })
-          // console.log(`creating VideoPage at ${path}videos`)
+
+        ///////////////////
+        // Contact Pages //
+        ///////////////////
+        // const fallbackMusicpageId = getFallbackId(result.data.musicPages);
+        const fallbackContactpageId = getFallbackId(result.data.contactPages);
+
+        Object.entries(locales).forEach(([,locale]) => {
+          const page = result.data.contactPages.nodes.find(page => page.language.name === locale.locale)
+          const path = `${locale.path}contact`;
+          const id = page ? page.id : fallbackContactpageId
+
+          console.log(`creating ${locale.locale} ContactPage at ${path}`)
+          createPage({
+            component: ContactPage,
+            path: `${path}`,
+            context: {
+              id
+            },
+          });  
+        })
+
+
+        // console.log(`creating VideoPage at ${path}videos`)
           // createPage({
           //   component: VideoPage,
           //   path: `${path}videos`,
@@ -157,6 +189,11 @@ exports.createPages = ({ graphql, actions }) => {
           //     id
           //   },
           // });  
+
+        /////////////////////////////////////////////
+        // Bio Pages ////////////////////////////////
+        /////////////////////////////////////////////
+        Object.entries(locales).forEach(([,locale]) => {
 
           // console.log(`creating BioPage at ${path}bio`)
           // createPage({
@@ -166,21 +203,12 @@ exports.createPages = ({ graphql, actions }) => {
           //     id
           //   },
           // });  
-
+        })
 
           // console.log(`creating LivePage at ${path}live`)
           // createPage({
           //   component: LivePage,
           //   path: `${path}live`,
-          //   context: {
-          //     id
-          //   },
-          // });  
-
-          // console.log(`creating ${locale.locale} ContactPage at ${path}contact`)
-          // createPage({
-          //   component: ContactPage,
-          //   path: `${path}contact`,
           //   context: {
           //     id
           //   },

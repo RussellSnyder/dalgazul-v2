@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import i18n from "i18next";
+import { useTranslation } from "react-i18next";
 
 import Layout from "../components/layout"
 import Image from "../components/image"
@@ -7,8 +9,10 @@ import { Link, graphql } from "gatsby"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Img from "gatsby-image"
 import Parallax from '../components/parallax'
+import Page from '../components/page'
 
 const ContactPage = ({ path, data }) => {
+  const { t, i18n } = useTranslation();
 
   return <Layout
       // language={language}
@@ -17,9 +21,8 @@ const ContactPage = ({ path, data }) => {
       <SEO
         title={data.site.title}
       />
-      <div className="container">
-        <h1>Contact</h1>  
-
+      <Page data={data.contentfulPage} />
+      <div className="container mb-4 pb-4">
         <form
           name="contact"
           method="POST"
@@ -29,18 +32,31 @@ const ContactPage = ({ path, data }) => {
         >
           <input type="hidden" name="form-name" value="contact" />
           <div className="form-group">
-            <label>Your Name:</label>
-            <input className="form-control" type="text" name="name" />
+            <label>{t('name')}</label>
+            <input
+              placeholder={t('name_placeholder')}
+              className="form-control"
+              type="text"
+              name="name" />
           </div>
           <div className="form-group">
-            <label>Your Email: </label>
-            <input className="form-control" type="email" name="email" />
+            <label>{t('email')}</label>
+            <input
+              placeholder={t("email_placeholder")}
+              className="form-control"
+              type="email"
+              name="email"
+            />
           </div>
           <div className="form-group">
-            <label>Message: </label>
-            <textarea className="form-control" name="message"></textarea>
+            <label>{t('message')}</label>
+            <textarea
+              className="form-control"
+              name="message"
+              placeholder={t("message_placeholder")}
+            />
           </div>
-          <button type="submit" className="mt-2 btn btn-primary col-12">Send</button>
+          <button type="submit" className="mt-2 btn btn-primary col-12">{t('send')}</button>
         </form>
       </div>
     </Layout>
@@ -49,9 +65,12 @@ const ContactPage = ({ path, data }) => {
 export default ContactPage
 
 export const query = graphql`
-  query {
+  query($id: String!) {
     site {
       ...SiteMetadata
+    }
+    contentfulPage(id: { eq: $id }) {
+      ...PageFragment
     }
   }
 `

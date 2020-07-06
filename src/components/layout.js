@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
+import '../i18n';
 import Header from "./header"
 import "./layout.scss"
 
@@ -22,7 +23,7 @@ const Layout = ({ children, language, path }) => {
       />
       <div>
         <main>{children}</main>
-        <footer className="container text-center">
+        <footer className="container text-center p-4">
           © {new Date().getFullYear()} - Dalgazul
         </footer>
       </div>
