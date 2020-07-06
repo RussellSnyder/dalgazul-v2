@@ -13,7 +13,8 @@ module.exports = {
     url: activeEnv === "development" ? 'http://localhost:8000/' : 'netlify.dalgazul.app',
     social: {
       facebook: 'https://www.facebook.com/dalgazul',
-      youtube: 'https://www.youtube.com/channel/UCL8aoiuRkkaO2Bsym4yyQaQ/featured'
+      youtube: 'https://www.youtube.com/channel/UCL8aoiuRkkaO2Bsym4yyQaQ/featured',
+      bandcamp: 'https://dalgazul.bandcamp.com/releases',
     }
   },
   plugins: [

@@ -1,0 +1,13 @@
+.music-preview {
+  .image {
+    padding: 0;
+    height: 200px;
+    overflow: hidden;
+  }
+  .card-body {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    margin-bottom: 0;
+  }
+}

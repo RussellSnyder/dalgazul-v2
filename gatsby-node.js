@@ -1,8 +1,23 @@
 const path = require('path');
 const kebabCase = require('lodash/kebabCase');
-const locales = require('./src/constants/locales')
+const locales = require('./src/constants/locales');
 
 const defaultLanguage = Object.entries(locales).find(([, value]) => value.default)[1];
+
+const getPageIds = (pages, cb) => {
+  const fallbackId = pages.nodes.find(page => {
+    return page.language.name === defaultLanguage.locale;
+  }).id
+
+  return Object.entries(locales).forEach(([,locale]) => {
+    const page = pages.nodes.find(page => page.language.name === locale.locale)
+    page ? page.id : fallbackId
+  })
+}
+
+const getFallbackId = (pages) => pages.nodes.find(page => {
+  return page.language.name === defaultLanguage.locale;
+}).id
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -13,6 +28,7 @@ exports.createPages = ({ graphql, actions }) => {
     const VideoPage = path.resolve('./src/templates/video-page.js');
     const BioPage = path.resolve('./src/templates/bio-page.js');
     const MusicPage = path.resolve('./src/templates/music-page.js');
+    const MusicSingle = path.resolve('./src/templates/music-single.js');
     const LivePage = path.resolve('./src/templates/live-page.js');
 
     resolve(
@@ -20,9 +36,31 @@ exports.createPages = ({ graphql, actions }) => {
       query {
         homePages: allContentfulHomePage {
           nodes {
-            label
             id
-            language
+            language {
+              name
+            }
+          }
+        }
+        musicPages: allContentfulPage(filter: {pageType: {eq: "music"}}) {
+          nodes {
+            id
+            pageType
+            language {
+              name
+            }
+          }
+        }
+        musicSingles: allContentfulMusic {
+          nodes {
+            id
+            language {
+              name
+            }
+            languageKey {
+              name
+            }
+            title
           }
         }
       }
@@ -32,12 +70,39 @@ exports.createPages = ({ graphql, actions }) => {
           reject(result.errors);
         }
 
-        const fallbackHomepageId = result.data.homePages.nodes.find(homePage => {
-          return homePage.language === defaultLanguage.locale;
-        }).id
+        /////////////////
+        // MUSIC PAGES //
+        /////////////////
+
+        const musicSortedByLanguage = {};
+        // initialize language arrays
+        Object.entries(locales).forEach(([,locale]) => musicSortedByLanguage[locale.locale] = [])
+        // fill with the languages we have
+        result.data.musicSingles.nodes.forEach(music => {
+          musicSortedByLanguage[music.language.name].push(music)
+        })
+        // default language is fallback content
+        const fallbackContentLanguageKeys = musicSortedByLanguage[defaultLanguage.locale].map(music => music.languageKey.name)
+        // fill with fallback content        
+        Object.entries(musicSortedByLanguage).forEach(([key,languageGroup]) => {
+          if (key === defaultLanguage.locale) return;
+          const languageGroupKeys = languageGroup.map(music => music.languageKey.name);
+          fallbackContentLanguageKeys.forEach((languageKey, i) => {
+            // no duplicates
+            if (languageGroupKeys.includes(languageKey)) return;
+            musicSortedByLanguage[key].push(musicSortedByLanguage[defaultLanguage.locale][i])
+          })
+        })
+
+        const musicWithFallbackIdsSortedByLanguage = {} 
+        Object.entries(musicSortedByLanguage).forEach(([key,languageGroup]) => {
+          musicWithFallbackIdsSortedByLanguage[key] = languageGroup.map(music => music.id)
+        })
+
+        const fallbackHomepageId = getFallbackId(result.data.homePages);
 
         Object.entries(locales).forEach(([,locale]) => {
-          const page = result.data.homePages.nodes.find(page => page.language === locale.locale)
+          const page = result.data.homePages.nodes.find(page => page.language.name === locale.locale)
           const path = locale.path;
           const id = page ? page.id : fallbackHomepageId
 
@@ -46,55 +111,80 @@ exports.createPages = ({ graphql, actions }) => {
             component: HomePage,
             path,
             context: {
-              id
+              id 
             },
-          });  
+          });
+        })
 
-          console.log(`creating VideoPage at ${path}videos`)
-          createPage({
-            component: VideoPage,
-            path: `${path}videos`,
-            context: {
-              id
-            },
-          });  
+        const fallbackMusicpageId = getFallbackId(result.data.musicPages);
 
-          console.log(`creating BioPage at ${path}bio`)
-          createPage({
-            component: BioPage,
-            path: `${path}bio`,
-            context: {
-              id
-            },
-          });  
+        Object.entries(locales).forEach(([,locale]) => {
+          const page = result.data.musicPages.nodes.find(page => page.language.name === locale.locale)
+          const path = `${locale.path}music`;
+          const id = page ? page.id : fallbackMusicpageId
 
-          console.log(`creating MusicPage at ${path}music`)
+          console.log(`creating MusicPage at ${path}`)
           createPage({
             component: MusicPage,
-            path: `${path}music`,
+            path,
             context: {
-              id
+              id,
+              musicIds: musicWithFallbackIdsSortedByLanguage[locale.locale]
             },
-          });  
-
-          console.log(`creating LivePage at ${path}live`)
-          createPage({
-            component: LivePage,
-            path: `${path}live`,
-            context: {
-              id
-            },
-          });  
-
-          console.log(`creating ${locale.locale} ContactPage at ${path}contact`)
-          createPage({
-            component: ContactPage,
-            path: `${path}contact`,
-            context: {
-              id
-            },
-          });  
+          });
         })
+
+        Object.entries(musicSortedByLanguage).forEach(([lang,langGroup]) => {
+          langGroup.forEach(music => {
+            const path = `${lang === defaultLanguage.locale ? '' : lang}/music/${kebabCase(music.title)}`;
+  
+            console.log(`creating MusicSingle at ${path}`)
+  
+            createPage({
+              component: MusicSingle,
+              path,
+              context: {
+                id: music.id
+              },
+            });
+          })
+        })
+          // console.log(`creating VideoPage at ${path}videos`)
+          // createPage({
+          //   component: VideoPage,
+          //   path: `${path}videos`,
+          //   context: {
+          //     id
+          //   },
+          // });  
+
+          // console.log(`creating BioPage at ${path}bio`)
+          // createPage({
+          //   component: BioPage,
+          //   path: `${path}bio`,
+          //   context: {
+          //     id
+          //   },
+          // });  
+
+
+          // console.log(`creating LivePage at ${path}live`)
+          // createPage({
+          //   component: LivePage,
+          //   path: `${path}live`,
+          //   context: {
+          //     id
+          //   },
+          // });  
+
+          // console.log(`creating ${locale.locale} ContactPage at ${path}contact`)
+          // createPage({
+          //   component: ContactPage,
+          //   path: `${path}contact`,
+          //   context: {
+          //     id
+          //   },
+          // });  
       })
     )
   })

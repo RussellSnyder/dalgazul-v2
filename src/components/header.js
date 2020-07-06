@@ -10,7 +10,7 @@ export default ({ siteTitle, path, headerLogo }) => (
   <Headroom>
     <div className="row">
       <div className="offset-1 col-3 offset-sm-4 col-sm-4 mb-sm-4 mb-md-0 offset-md-1 col-md-2">
-        <Link to={getCurrentLocaleFromPath(path).path} >
+        <Link to={getCurrentLocaleFromPath(path).path}>
           <Img  
             sizes={headerLogo.sizes}
             alt={`${siteTitle} main logo`}
