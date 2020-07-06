@@ -26,8 +26,8 @@ const ContactPage = ({ path, data }) => {
           // action=""
         >
           <input type="hidden" name="form-name" value="contact" />
-          <div className="form-group">
-            <label htmlFor="name">{t('name')}
+          <div className="form-group row">
+            <label htmlFor="name" className="col-sm-6 offset-sm-3">{t('name')}
               <input
                 id="name"
                 placeholder={t('name_placeholder')}
@@ -36,8 +36,8 @@ const ContactPage = ({ path, data }) => {
                 name="name" />
             </label>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">{t('email')}
+          <div className="form-group row">
+            <label htmlFor="email" className="col-sm-6 offset-sm-3">{t('email')}
               <input
                 id="email"
                 placeholder={t("email_placeholder")}
@@ -47,17 +47,17 @@ const ContactPage = ({ path, data }) => {
               />
             </label>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">{t('message')}
+          <div className="form-group row">
+            <label htmlFor="email" className="col-sm-6 offset-sm-3">{t('message')}
               <textarea
                 id="email"
                 className="form-control"
                 name="message"
                 placeholder={t("message_placeholder")}
-                />
+              />
             </label>
           </div>
-          <button type="submit" className="mt-2 btn btn-primary col-12">{t('send')}</button>
+          <button type="submit" className="mt-2 btn btn-primary col-sm-6 offset-sm-3 col-12">{t('send')}</button>
         </form>
       </div>
     </Layout>
