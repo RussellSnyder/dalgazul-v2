@@ -45,7 +45,6 @@ const MemberPreview = ({data, imagePosition}) => {
 }
 
 const BioPage = ({ path, data }) => {
-  console.log(data)
   return <Layout
       path={path}
     >

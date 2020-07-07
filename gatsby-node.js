@@ -28,7 +28,6 @@ const sortByLanguageAndAddFallbacks = (pages) => {
     itemsSortedByLanguage[item.language.name].push(item)
   })
   // default language is fallback content
-  console.log(itemsSortedByLanguage[defaultLanguage.locale])
   const fallbackContentLanguageKeys = itemsSortedByLanguage[defaultLanguage.locale].map(item => item.languageKey.name)
   // fill with fallback content        
   Object.entries(itemsSortedByLanguage).forEach(([key,languageGroup]) => {

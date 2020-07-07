@@ -15,7 +15,6 @@ const MemberPage = ({ path, data }) => {
     language,
   } = data.contentfulMember;
 
-  console.log(data)
   return (
     <Layout
         language={language}
