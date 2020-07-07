@@ -4,6 +4,7 @@ import { TiWaves } from 'react-icons/ti'
 import { GrClose } from 'react-icons/gr'
 import LanguageSelector, { getCurrentLocaleFromPath } from "./language-selector";
 import { Link } from "gatsby"
+import SocialMedia from './social-media';
 
 const navLinks = (path) => {
   const currentLocale = getCurrentLocaleFromPath(path)
@@ -32,7 +33,7 @@ const navLinks = (path) => {
   ]
 }
 
-const Navigation = ({ path }) => {
+const Navigation = ({ path, socialData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -69,9 +70,10 @@ const Navigation = ({ path }) => {
                 {link.title}
               </Link>
             })}  
-            <div className="d-sm-none">
+            <div className="d-sm-none my-4">
               <LanguageSelector path={path} />
             </div>
+            <SocialMedia extraClass={"px-5"} socialData={socialData} />
           </div>
         </div>
       </div> 

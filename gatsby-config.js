@@ -15,6 +15,8 @@ module.exports = {
       facebook: 'https://www.facebook.com/dalgazul',
       youtube: 'https://www.youtube.com/channel/UCL8aoiuRkkaO2Bsym4yyQaQ/featured',
       bandcamp: 'https://dalgazul.bandcamp.com/releases',
+      instagram: 'https://www.instagram.com/dalgazul/',
+      soundcloud: 'https://soundcloud.com/dalgazul',
     },
     headerLogo: `src/images/logo_header.png`
   },

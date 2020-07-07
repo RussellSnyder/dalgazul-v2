@@ -8,6 +8,9 @@ export const SiteFramgent = graphql`
       social {
         facebook
         youtube
+        instagram
+        bandcamp
+        soundcloud
       }
       headerLogo
     }

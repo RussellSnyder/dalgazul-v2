@@ -6,7 +6,7 @@ import './header.scss';
 import LanguageSelector, { getCurrentLocaleFromPath } from "./language-selector";
 import logo from "../images/logo_header.png"
 
-export default ({ siteTitle, path }) => (
+export default ({ siteTitle, path, socialData }) => (
   <Headroom className="container-fluid">
     <div className="d-none d-sm-block d-lg-none position-absolute"
       style={{
@@ -30,7 +30,7 @@ export default ({ siteTitle, path }) => (
         </Link>
       </div>
       <div className="col-6 offset-sm-2 col-sm-8 offset-md-1 col-md-6 my-auto text-center">
-        <Navigation path={path} />
+        <Navigation path={path} socialData={socialData} />
       </div>
       <div className="col-lg-2 flex-row-reverse my-auto d-none d-lg-flex">
         <LanguageSelector path={path} />

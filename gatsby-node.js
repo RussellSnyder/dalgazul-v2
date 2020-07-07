@@ -19,6 +19,36 @@ const getFallbackId = (pages) => pages.nodes.find(page => {
   return page.language.name === defaultLanguage.locale;
 }).id
 
+const sortByLanguageAndAddFallbacks = (pages) => {
+  const itemsSortedByLanguage = {};
+  // initialize language arrays
+  Object.entries(locales).forEach(([,locale]) => itemsSortedByLanguage[locale.locale] = [])
+  // fill with the languages we have
+  pages.nodes.forEach(item => {
+    itemsSortedByLanguage[item.language.name].push(item)
+  })
+  // default language is fallback content
+  console.log(itemsSortedByLanguage[defaultLanguage.locale])
+  const fallbackContentLanguageKeys = itemsSortedByLanguage[defaultLanguage.locale].map(item => item.languageKey.name)
+  // fill with fallback content        
+  Object.entries(itemsSortedByLanguage).forEach(([key,languageGroup]) => {
+    if (key === defaultLanguage.locale) return;
+    const languageGroupKeys = languageGroup.map(item => item.languageKey.name);
+    fallbackContentLanguageKeys.forEach((languageKey, i) => {
+      // no duplicates
+      if (languageGroupKeys.includes(languageKey)) return;
+      itemsSortedByLanguage[key].push(itemsSortedByLanguage[defaultLanguage.locale][i])
+    })
+  })
+
+  const itemsSortedByLanguageWithFallbackKey = {} 
+  Object.entries(itemsSortedByLanguage).forEach(([key,languageGroup]) => {
+    itemsSortedByLanguageWithFallbackKey[key] = languageGroup.map(item => item.id)
+  })
+
+  return [itemsSortedByLanguage, itemsSortedByLanguageWithFallbackKey]
+}
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -126,31 +156,7 @@ exports.createPages = ({ graphql, actions }) => {
         // MUSIC PAGES /////////////////////
         ////////////////////////////////////
 
-        const musicSortedByLanguage = {};
-        // initialize language arrays
-        Object.entries(locales).forEach(([,locale]) => musicSortedByLanguage[locale.locale] = [])
-        // fill with the languages we have
-        result.data.musicSingles.nodes.forEach(music => {
-          musicSortedByLanguage[music.language.name].push(music)
-        })
-        // default language is fallback content
-        const fallbackContentLanguageKeys = musicSortedByLanguage[defaultLanguage.locale].map(music => music.languageKey.name)
-        // fill with fallback content        
-        Object.entries(musicSortedByLanguage).forEach(([key,languageGroup]) => {
-          if (key === defaultLanguage.locale) return;
-          const languageGroupKeys = languageGroup.map(music => music.languageKey.name);
-          fallbackContentLanguageKeys.forEach((languageKey, i) => {
-            // no duplicates
-            if (languageGroupKeys.includes(languageKey)) return;
-            musicSortedByLanguage[key].push(musicSortedByLanguage[defaultLanguage.locale][i])
-          })
-        })
-
-        const musicWithFallbackIdsSortedByLanguage = {} 
-        Object.entries(musicSortedByLanguage).forEach(([key,languageGroup]) => {
-          musicWithFallbackIdsSortedByLanguage[key] = languageGroup.map(music => music.id)
-        })
-
+        const [musicGroupedByLanguage, musicGroupedByLanguageWithFallbackIds] = sortByLanguageAndAddFallbacks(result.data.musicSingles)
         const fallbackMusicpageId = getFallbackId(result.data.musicPages);
 
         Object.entries(locales).forEach(([,locale]) => {
@@ -164,12 +170,12 @@ exports.createPages = ({ graphql, actions }) => {
             path,
             context: {
               id,
-              musicIds: musicWithFallbackIdsSortedByLanguage[locale.locale]
+              musicIds: musicGroupedByLanguageWithFallbackIds[locale.locale]
             },
           });
         })
 
-        Object.entries(musicSortedByLanguage).forEach(([lang,langGroup]) => {
+        Object.entries(musicGroupedByLanguage).forEach(([lang,langGroup]) => {
           langGroup.forEach(music => {
             const path = `${lang === defaultLanguage.locale ? '' : lang}/music/${kebabCase(music.title)}`;
   
@@ -218,31 +224,7 @@ exports.createPages = ({ graphql, actions }) => {
         /////////////////////////////////////////////
         // Bio & Member Pages ///////////////////////
         /////////////////////////////////////////////
-        const membersGroupedByLanguage = {};
-        // initialize language arrays
-        Object.entries(locales).forEach(([,locale]) => membersGroupedByLanguage[locale.locale] = [])
-        // fill with the languages we have
-        result.data.members.nodes.forEach(member => {
-          membersGroupedByLanguage[member.language.name].push(member)
-        })
-        // default language is fallback content
-        const fallbackMemberContentLanguageKeys = membersGroupedByLanguage[defaultLanguage.locale].map(item => item.languageKey.name)
-        // fill with fallback content        
-        Object.entries(membersGroupedByLanguage).forEach(([key,languageGroup]) => {
-          if (key === defaultLanguage.locale) return;
-          const languageGroupKeys = languageGroup.map(member => member.languageKey.name);
-          fallbackMemberContentLanguageKeys.forEach((languageKey, i) => {
-            // no duplicates
-            if (languageGroupKeys.includes(languageKey)) return;
-            membersGroupedByLanguage[key].push(membersGroupedByLanguage[defaultLanguage.locale][i])
-          })
-        })
-
-        const membersWithFallbackIdsSortedByLanguage = {} 
-        Object.entries(membersGroupedByLanguage).forEach(([key,languageGroup]) => {
-          membersWithFallbackIdsSortedByLanguage[key] = languageGroup.map(member => member.id)
-        })
-
+        const [membersGroupedByLanguage, membersGroupedByLanguageWithFallbackIds] = sortByLanguageAndAddFallbacks(result.data.members);
         const fallbackBiopageId = getFallbackId(result.data.bioPages);
 
         Object.entries(locales).forEach(([,locale]) => {
@@ -256,7 +238,7 @@ exports.createPages = ({ graphql, actions }) => {
             path: `${path}`,
             context: {
               id,
-              memberIds: membersWithFallbackIdsSortedByLanguage[locale.locale]
+              memberIds: membersGroupedByLanguageWithFallbackIds[locale.locale]
             },
           });  
         })

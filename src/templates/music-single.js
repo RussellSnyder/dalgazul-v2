@@ -21,7 +21,6 @@ const MusicSingle = ({ path, data }) => {
     language,
   } = data.contentfulMusic;
 
-  console.log(path)
   return (
     <Layout
         // language={language}
