@@ -5,7 +5,7 @@ import { graphql } from "gatsby"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import './music-page.scss'
 
-const MemberPage = ({ path, data }) => {
+const MemberPage = ({ path, data, location }) => {
   const {
     name,
     photo,
@@ -25,7 +25,7 @@ const MemberPage = ({ path, data }) => {
           description={shortDescription}
           image={photo.file.url}
           lang={language.name}
-          location={path}
+          location={location}
         />
         <div className="container">
           <div className="row mb-4 mb-sm-5">
@@ -45,7 +45,6 @@ const MemberPage = ({ path, data }) => {
           <div className="row">
             <div className="col-sm-10 offset-sm-1">
               {longDescription && documentToReactComponents(longDescription.json)}
-
             </div>
           </div>
         </div>

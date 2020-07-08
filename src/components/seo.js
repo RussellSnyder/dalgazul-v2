@@ -27,7 +27,7 @@ function SEO({ description, lang, meta, title, image, location }) {
   )
 
   const metaDescription = description || site.siteMetadata.description
-  const url = location ? `${site.siteMetadata.url}${location}` : site.siteMetadata.url;
+  const url = location ? `${location.href}/` : `${site.siteMetadata.url}/`;
 
   return (
     <Helmet
