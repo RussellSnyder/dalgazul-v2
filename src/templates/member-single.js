@@ -3,7 +3,17 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { graphql } from "gatsby"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import striptags from 'striptags';
 import './music-page.scss'
+
+const getSeoDescription = (contentfulMember) => {
+  const { shortDescription, name, role } = contentfulMember;
+  if (!shortDescription || !shortDescription.json) {
+    return `${name} | ${role}`
+  }
+  return striptags(documentToReactComponents(shortDescription.json)[0].props.children[0])
+
+}
 
 const MemberPage = (props) => {
   const { path, data, location } = props;
@@ -13,7 +23,6 @@ const MemberPage = (props) => {
     photo,
     role,
     longDescription,
-    shortDescription,
     language,
   } = data.contentfulMember;
 
@@ -24,7 +33,7 @@ const MemberPage = (props) => {
       >
         <SEO 
           title={`Dalgazul | ${name}`}
-          description={shortDescription}
+          description={getSeoDescription(data.contentfulMember)}
           image={photo.file.url}
           lang={language.name}
           url={`${data.site.siteMetadata.url}${location.pathname}/`}
