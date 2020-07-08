@@ -5,6 +5,7 @@ import { kebabCase } from "lodash"
 import './bio-page.scss'
 import Page from '../components/page'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import locale from '../constants/locales';
 
 const MemberPreview = ({data, imagePosition}) => {
   const {
@@ -30,7 +31,7 @@ const MemberPreview = ({data, imagePosition}) => {
 
   const textClassName = `text text-center px-md-5 col-md-6 my-auto ${imagePosition === 'left' ? 'text-md-left' : 'text-md-right'}`
   return <Link
-    to={`/${language.name}/member/${kebabCase(name)}`} 
+    to={`${locale[language.name].path}member/${kebabCase(name)}`} 
     className="member-preview row"
   >
     {imagePosition === "left" && <Image />}

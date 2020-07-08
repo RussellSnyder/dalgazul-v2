@@ -28,8 +28,8 @@ const MemberPage = ({ path, data }) => {
           location={path}
         />
         <div className="container">
-          <div className="row mb-5">
-            <div className="col-sm-6">
+          <div className="row mb-4 mb-sm-5">
+            <div className="col-sm-6 mb-3 mb-sm-0">
               <img
                 className="d-block w-100 img-fluid"
                 src={photo.file.url}
