@@ -9,6 +9,10 @@ const MemberPage = (props) => {
   console.log(props)
   const { path, data, location } = props;
 
+  console.log(`1: ${data.site.siteMetadata.url}${location.pathname}/`)
+  console.log(`2: ${location.href}/`)
+  console.log(`3: ${data.site.siteMetadata.url}${path}/`)
+
   const {
     name,
     photo,
