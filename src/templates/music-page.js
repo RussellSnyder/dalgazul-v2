@@ -38,7 +38,11 @@ const MusicPage = ({ path, data, location }) => {
   return <Layout
       path={path}
     >
-      <Page location={location} data={data.contentfulPage} />
+      <Page
+        location={location}
+        data={data.contentfulPage}
+        site={data.site}
+      />
       <div className="container">
         <div className="row mb-4">
           {data.allContentfulMusic.nodes.map(data => (

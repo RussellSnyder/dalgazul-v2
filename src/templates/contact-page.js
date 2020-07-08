@@ -17,7 +17,10 @@ const ContactPage = ({ path, data, location }) => {
         title={data.site.title}
         url={`${data.site.siteMetadata.url}${location.pathname}/`}
       />
-      <Page data={data.contentfulPage} />
+      <Page
+        site={data.site}
+        data={data.contentfulPage}
+      />
       <div className="container mb-4 pb-4">
         <form
           name={`${data.contentfulPage.language.name}-contact`}

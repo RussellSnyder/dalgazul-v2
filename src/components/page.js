@@ -4,7 +4,7 @@ import SEO from "../components/seo"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Parallax from '../components/parallax'
 
-const Page = ({data, location}) => {
+const Page = ({data, location, site}) => {
   const {
     title,
     body,
@@ -21,7 +21,7 @@ const Page = ({data, location}) => {
       description={seoDescription}
       lang={language.name}
       image={seoImage.file.url}
-      url={`${data.site.siteMetadata.url}${location.pathname}/`}          
+      url={`${site.siteMetadata.url}${location.pathname}/`}          
     />
     <Parallax photo={featuredImage} />
     <div className="main-page container my-4">
