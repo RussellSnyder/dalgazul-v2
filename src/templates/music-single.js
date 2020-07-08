@@ -5,7 +5,7 @@ import { graphql } from "gatsby"
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import './music-page.scss'
 
-const MusicSingle = ({ path, data }) => {
+const MusicSingle = ({ path, data, location }) => {
   const {
     featuredImage,
     title,
@@ -23,7 +23,7 @@ const MusicSingle = ({ path, data }) => {
 
   return (
     <Layout
-        // language={language}
+        language={language}
         path={path}
       >
         <SEO 
@@ -31,7 +31,7 @@ const MusicSingle = ({ path, data }) => {
           description={shortDescription}
           image={featuredImage.file.url}
           lang={language.name}
-          location={path}
+          url={`${data.site.siteMetadata.url}${location.pathname}/`}          
         />
         <div className="container mb-4 pb-4">
           <div className="row mb-4 pb-4">            

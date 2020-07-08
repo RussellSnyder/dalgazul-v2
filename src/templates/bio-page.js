@@ -45,11 +45,11 @@ const MemberPreview = ({data, imagePosition}) => {
   </Link>
 }
 
-const BioPage = ({ path, data }) => {
+const BioPage = ({ path, data, location }) => {
   return <Layout
       path={path}
     >
-      <Page data={data.contentfulPage} />
+      <Page data={data.contentfulPage} location={location} />
       <div className="container">
           {data.allContentfulMember.nodes.map((data, i) => (
             <div className="mb-4 pb-4">

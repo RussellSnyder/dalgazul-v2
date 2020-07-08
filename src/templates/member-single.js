@@ -9,10 +9,6 @@ const MemberPage = (props) => {
   console.log(props)
   const { path, data, location } = props;
 
-  console.log(`1: ${data.site.siteMetadata.url}${location.pathname}/`)
-  console.log(`2: ${location.href}/`)
-  console.log(`3: ${data.site.siteMetadata.url}${path}/`)
-
   const {
     name,
     photo,
@@ -32,7 +28,7 @@ const MemberPage = (props) => {
           description={shortDescription}
           image={photo.file.url}
           lang={language.name}
-          location={location}
+          url={`${data.site.siteMetadata.url}${location.pathname}/`}
         />
         <div className="container">
           <div className="row mb-4 mb-sm-5">

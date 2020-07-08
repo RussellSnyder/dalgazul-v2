@@ -34,11 +34,11 @@ const MusicPreview = ({data}) => {
   </Link>
 }
 
-const MusicPage = ({ path, data }) => {
+const MusicPage = ({ path, data, location }) => {
   return <Layout
       path={path}
     >
-      <Page data={data.contentfulPage} />
+      <Page location={location} data={data.contentfulPage} />
       <div className="container">
         <div className="row mb-4">
           {data.allContentfulMusic.nodes.map(data => (

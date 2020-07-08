@@ -6,7 +6,7 @@ import SEO from "../components/seo"
 import { graphql } from "gatsby"
 import Page from '../components/page'
 
-const ContactPage = ({ path, data }) => {
+const ContactPage = ({ path, data, location }) => {
   const { t } = useTranslation();
 
   return <Layout
@@ -15,6 +15,7 @@ const ContactPage = ({ path, data }) => {
     >
       <SEO
         title={data.site.title}
+        url={`${data.site.siteMetadata.url}${location.pathname}/`}
       />
       <Page data={data.contentfulPage} />
       <div className="container mb-4 pb-4">

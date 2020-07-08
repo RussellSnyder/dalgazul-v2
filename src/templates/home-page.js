@@ -3,7 +3,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { graphql } from "gatsby"
 
-const HomePage = ({ path, data }) => {
+const HomePage = ({ path, data, location }) => {
   const { contentfulHomePage } = data; 
   const {
     language,
@@ -26,6 +26,7 @@ const HomePage = ({ path, data }) => {
         description={seoDescription}
         title={seoTitle}
         image={seoImage.file.url}
+        url={`${data.site.siteMetadata.url}${location.pathname}/`}
       />
       <div
         className="container pb-4 text-center text-sm-left"
