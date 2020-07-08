@@ -20,6 +20,7 @@ const ContactPage = ({ path, data, location }) => {
       <Page
         site={data.site}
         data={data.contentfulPage}
+        location={location}
       />
       <div className="container mb-4 pb-4">
         <form
