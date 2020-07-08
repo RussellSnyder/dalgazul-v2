@@ -49,7 +49,11 @@ const BioPage = ({ path, data, location }) => {
   return <Layout
       path={path}
     >
-      <Page data={data.contentfulPage} location={location} />
+      <Page
+        data={data.contentfulPage}
+        site={data.site}
+        location={location}
+      />
       <div className="container">
           {data.allContentfulMember.nodes.map((data, i) => (
             <div className="mb-4 pb-4">

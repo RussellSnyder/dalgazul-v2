@@ -6,7 +6,6 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import './music-page.scss'
 
 const MemberPage = (props) => {
-  console.log(props)
   const { path, data, location } = props;
 
   const {
